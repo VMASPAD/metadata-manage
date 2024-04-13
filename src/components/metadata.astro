@@ -1,0 +1,172 @@
+---
+---
+
+<div class="content-center">
+    <h1 class="title-start">Extract metadata from your images.</h1>
+    <input type="file" id="fileInput" accept="image/*" />
+    <img src="" alt="" id="previewImg" width="200">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Value</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody id="output">
+      </tbody>
+    </table>
+    <p>See the console to view in JSON format</p>
+  </div>
+  <script>
+    import ExifReader from 'exifreader';
+  
+    const outputTable = document.getElementById('output');
+    const fileInput = document.getElementById("fileInput");
+  // Seleccionar la imagen para previsualización
+  const previewImg = document.getElementById("previewImg") as HTMLImageElement;
+  
+  // Manejar el evento onChange del input de tipo file
+  fileInput?.addEventListener("change", function(event) {
+    // Obtener el archivo seleccionado
+    const file = event.target.files[0];
+    
+    // Crear un objeto URL para la imagen seleccionada
+    const imageUrl = URL.createObjectURL(file);
+    
+    // Mostrar la imagen previa
+    previewImg.src = imageUrl;
+  });
+    fileInput?.addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      try {
+        const exifData = await ExifReader.load(file);
+        console.log(exifData)
+        outputTable.innerHTML = ''; // Limpiar la tabla antes de mostrar los nuevos datos
+  
+        for (const [key, value] of Object.entries(exifData)) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${key}</td>
+            <td>${value.value}</td>
+            <td>${value.description}</td>
+          `;
+          outputTable.appendChild(row);
+        }
+      } catch (error) {
+        outputTable.innerHTML = `<tr><td colspan="3">Error: ${error.message}</td></tr>`;
+      }
+    });
+  </script>
+  
+  <style>
+    .content-center {
+      display: grid;
+      justify-items: center;
+    }
+  
+    .title-start {
+      font-family: 'Inter', sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 900;
+      font-size: 50px;
+      color: #0f111e;
+      font-variation-settings: "slnt" 0;
+    }
+  
+    body {
+      background: linear-gradient(-45deg, #ffffff, #08080862, #ffffff, #08080862);
+      background-size: 400% 400%;
+      animation: gradient 10s ease-out infinite;
+      height: 100vh;
+      font-family: 'Inter', sans-serif;
+    }
+  
+   /* Estilos generales */
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  /* Contenedor principal */
+  .content-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+  
+  /* Entrada de archivo */
+  input[type="file"] {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Imagen previa */
+  #previewImg {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 2rem;
+  }
+  
+  /* Tabla */
+  .table {
+    width: 100%;
+    max-width: 800px;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table th {
+    background-color: #0f111e;
+    color: #fff;
+    font-weight: 500;
+  }
+  
+  .table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Estilos de botones */
+  button {
+    background-color: #0f111e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0f111e;
+  }
+  
+  /* Animaciones y efectos */
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  </style>

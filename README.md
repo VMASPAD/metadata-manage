@@ -1,54 +1,100 @@
-# Astro Starter Kit: Basics
+# Image Metadata Extractor
 
-```sh
-npm create astro@latest -- --template basics
-```
+This simple web application allows you to extract metadata from your images using JavaScript. It utilizes the ExifReader library to read the metadata embedded in the image files.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## How to Use
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+1. Clone or download the repository to your local machine.
+2. Install with `npm i`
+3. Run `npm run dev`
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+## Usage Instructions
 
-## 🚀 Project Structure
+1. Click on the "Choose File" button to select an image from your device.
+2. Once the image is selected, the application will display a preview of the image.
+3. The metadata extracted from the image will be displayed in a table below the image preview.
+4. Each row in the table represents a metadata entry, showing the type, value, and description.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Example
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Suppose you have an image file named `example.jpg`. After opening the `index.html` file in your web browser, you select `example.jpg` using the file input. The application will then display the metadata extracted from `example.jpg`, such as the camera model, resolution, date taken, etc.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+<img src="test.jpg" alt="Imagen de unas nubes" width="200">
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Result:
+`
+{
+    "Bits Per Sample": {
+        "value": 8,
+        "description": "8"
+    },
+    "Image Height": {
+        "value": 768,
+        "description": "768px"
+    },
+    "Image Width": {
+        "value": 768,
+        "description": "768px"
+    },
+    "Color Components": {
+        "value": 3,
+        "description": "3"
+    },
+    "Subsampling": {
+        "value": [
+            [
+                1,
+                34,
+                0
+            ],
+            [
+                2,
+                17,
+                1
+            ],
+            [
+                3,
+                17,
+                1
+            ]
+        ],
+        "description": "YCbCr4:2:0 (2 2)"
+    },
+    "JFIF Version": {
+        "value": 257,
+        "description": "1.1"
+    },
+    "Resolution Unit": {
+        "value": 0,
+        "description": "None"
+    },
+    "XResolution": {
+        "value": 1,
+        "description": "1"
+    },
+    "YResolution": {
+        "value": 1,
+        "description": "1"
+    },
+    "JFIF Thumbnail Width": {
+        "value": 0,
+        "description": "0px"
+    },
+    "JFIF Thumbnail Height": {
+        "value": 0,
+        "description": "0px"
+    },
+    "FileType": {
+        "value": "jpeg",
+        "description": "JPEG"
+    }
+}
+`
+The result varies depending on the image, with less or more information available.
+## Note
 
-Any static assets, like images, can be placed in the `public/` directory.
+- This application only extracts metadata from image files (JPEG, PNG, etc.).
+- If an error occurs during the metadata extraction process, the application will display an error message in the table.
 
-## 🧞 Commands
+For more details on how the metadata extraction works, please refer to the source code.
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
