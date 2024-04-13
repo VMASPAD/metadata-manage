@@ -32,6 +32,7 @@
 
             try {
                 const exifData = await ExifReader.load(file);
+                console.log(exifData)
                 outputTable.innerHTML = '';
 
                 for (const [key, value] of Object.entries(exifData)) {
